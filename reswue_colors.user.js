@@ -172,8 +172,10 @@ function wrapper(plugin_info) {
                                         if (is_modified) {
                                                 window.plugin.reswue_colors.saveCustomColors();
                                                 // if active operation, redraw
-                                                if ((localStorage['reswue-operation'] !== undefined) && (localStorage['reswue-operation'] != '') && (window.plugin.reswue_colors.is_new_color)) {
-                                                        window.plugin.reswue.data.updateLinks(window.plugin.reswue.data.links);
+                                                if (window.plugin.reswue.core.selectedOperation.getDisplayName() != '') {
+                                                //if ((localStorage['reswue-operation'] !== undefined) && (localStorage['reswue-operation'] != '') && (window.plugin.reswue_colors.is_new_color)) {
+                                                        
+                                                        window.plugin.reswue.core.selectedOperation.data.updateLinks(window.plugin.reswue.core.selectedOperation.data.links);
                                                 }
                                         } else {
                                                 alert('nothing to save...');

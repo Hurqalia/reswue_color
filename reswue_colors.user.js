@@ -3,7 +3,7 @@
 // @name           IITC plugin: ResWue Change links color
 // @author         hurqalia22
 // @category       Info
-// @version        0.1.3.20150801.001
+// @version        0.1.4.20150801.001
 // @namespace      https://github.com/Hurqalia/reswue_colors
 // @updateURL      https://github.com/Hurqalia/reswue_colors/raw/master/reswue_colors.meta.js
 // @downloadURL    https://github.com/Hurqalia/reswue_colors/raw/master/reswue_colors.user.js
@@ -116,7 +116,14 @@ function wrapper(plugin_info) {
         // toolbox menu
         window.plugin.reswue_colors.addButtons = function() {
                 $('head').append('<style>.rc_block_layer_selected {width:120px;text-align:left;border:2px solid red;} .rc_block_layer {width:120px;text-align:left;border:2px solid #1C405B;} .rc_block_layer:hover {border:2px solid yellow;} .rc_block_layer_title {width:80px;text-align:left;padding:2px;display:inline-block;} .rc_block_layer_newcolor {display:inline-block;padding:2px;width:20px;margin-left:2px;} .rc_block_edit {display:inline-block;width:20px;border: 1px solid white;}</style>');
-                $('div.leaflet-bar.leaflet-control').append('<a onclick="window.plugin.reswue_colors.dialogBox();" class="leaflet-bar-part" title="Color Picker" href="#"><img class="" id="reswue-btn-color-picker" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAADcElEQVR42m1TbUyTVxR+7lsK7VtCdbJCq5iGMS3yMaizfGwtrctcsrngRAnoxqKJ2cBsuCmLETsojGXJZvzF3I/9WHQCYcGAc3GJwXZNgQqssOIH4hDKMAICW/pBP4D77uKIYXMn98nNObnn5J7znIfgP1bf8LmKXfsYchmUq+EpBifDJXP1qT/WvidrHUv9ZxUikehEvsGkSNmyVcrH8hzz4fP66OjISMhh65yhlH5VYz7d+FSBmto6s1aXc1yX/5K88+erGB25BYFSsAREiaPxvCYNxldfQ7/T6e13dp+x1H5a96RAtbmmMlOrtSgTVXLrtatQq5XQ63XYvDERWALG7k/Cau/G1OyfeP2t/Ri9N+J1D7hqG+otZ8nJU6dVVBC6St4uU3e0NUOzfROMJg0W/XPwPYxACBIkEB5x0evxY48Lt6Yf4c3iUrRcOD/OcaSAnPjk5LEt29IblsIhfibggfZdJeaGH2K+R4qlZQkgYmc5DD0VsE2egHNTE1iX/BxEoqiFO0NuC6n8uKq1wPRKkavPwXkKPFiniEXwmzCwEAVR9D8jirA5SFmBo3FaPAgE4FD48EJuPrVf77xMjn74kd1QYNIPDTrRXOJG3ABF0nccqOTf9AZJBIeEXcgmGjRndCPzxTz8YrvuIO+Vf2A3GI364ZsuNO2bQ6RnFkmNY6B8FBvxKkkC+xACqIh5HzueyUZ76k/QZG+H3Wp1kMNHyltNO3cW3R12c/358ZjgoyGp/h7ieS+WJTGP85cRhoyTo0r5BSKJ87j5rAsp6enU2slaKDt05FhGRmYDLxHznr9m0HewEA+6fgPf+C3E3mkIYgJK4vHyhgrok3JxO+ECFMmbEAiEFtyDgxZS+s5hFSGkq/TAAfWvrhvwbliPWeMbmLgzC9+1IXCTQIo8DVmqeCySyxCkfmTpctDS1DTO6Dc8bnJ/aVnlDp3OkpWVLXf22LDIMe5UqYhwm8HNUMQEPaDh22wjOeTpjRhwubx9fb21PzSfP/tklfcWHzTrDYbjObl58sn7v+Pu6D34/QG2zkCsTIbUtK3YmJSM3t4bXrvNduZS68W6p8RUWFRSzstkVbsL9yiS1WqpRCrlVuKhcIiOjY0Hr3S0Pwr4/V92tLV8/b9qXLHde4pX5LyXIW+NnKdX5dx2pb11cu37vwHR8VhEZ1dfigAAAABJRU5ErkJggg==" width="16" height="16" style="vertical-align:middle;align:center;"></a>');
+                $('div.leaflet-bar.leaflet-control').each(function() { 
+                  var thisdiv  = $(this);
+                  $(this).children().each(function() { 
+                    if ($(this).attr('title') == 'RESWUE') { 
+                        thisdiv.append('<a onclick="window.plugin.reswue_colors.dialogBox();" class="leaflet-bar-part" title="Color Picker" href="#"><img class="" id="reswue-btn-color-picker" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAADcElEQVR42m1TbUyTVxR+7lsK7VtCdbJCq5iGMS3yMaizfGwtrctcsrngRAnoxqKJ2cBsuCmLETsojGXJZvzF3I/9WHQCYcGAc3GJwXZNgQqssOIH4hDKMAICW/pBP4D77uKIYXMn98nNObnn5J7znIfgP1bf8LmKXfsYchmUq+EpBifDJXP1qT/WvidrHUv9ZxUikehEvsGkSNmyVcrH8hzz4fP66OjISMhh65yhlH5VYz7d+FSBmto6s1aXc1yX/5K88+erGB25BYFSsAREiaPxvCYNxldfQ7/T6e13dp+x1H5a96RAtbmmMlOrtSgTVXLrtatQq5XQ63XYvDERWALG7k/Cau/G1OyfeP2t/Ri9N+J1D7hqG+otZ8nJU6dVVBC6St4uU3e0NUOzfROMJg0W/XPwPYxACBIkEB5x0evxY48Lt6Yf4c3iUrRcOD/OcaSAnPjk5LEt29IblsIhfibggfZdJeaGH2K+R4qlZQkgYmc5DD0VsE2egHNTE1iX/BxEoqiFO0NuC6n8uKq1wPRKkavPwXkKPFiniEXwmzCwEAVR9D8jirA5SFmBo3FaPAgE4FD48EJuPrVf77xMjn74kd1QYNIPDTrRXOJG3ABF0nccqOTf9AZJBIeEXcgmGjRndCPzxTz8YrvuIO+Vf2A3GI364ZsuNO2bQ6RnFkmNY6B8FBvxKkkC+xACqIh5HzueyUZ76k/QZG+H3Wp1kMNHyltNO3cW3R12c/358ZjgoyGp/h7ieS+WJTGP85cRhoyTo0r5BSKJ87j5rAsp6enU2slaKDt05FhGRmYDLxHznr9m0HewEA+6fgPf+C3E3mkIYgJK4vHyhgrok3JxO+ECFMmbEAiEFtyDgxZS+s5hFSGkq/TAAfWvrhvwbliPWeMbmLgzC9+1IXCTQIo8DVmqeCySyxCkfmTpctDS1DTO6Dc8bnJ/aVnlDp3OkpWVLXf22LDIMe5UqYhwm8HNUMQEPaDh22wjOeTpjRhwubx9fb21PzSfP/tklfcWHzTrDYbjObl58sn7v+Pu6D34/QG2zkCsTIbUtK3YmJSM3t4bXrvNduZS68W6p8RUWFRSzstkVbsL9yiS1WqpRCrlVuKhcIiOjY0Hr3S0Pwr4/V92tLV8/b9qXLHde4pX5LyXIW+NnKdX5dx2pb11cu37vwHR8VhEZ1dfigAAAABJRU5ErkJggg==" width="16" height="16" style="vertical-align:middle;align:center;"></a>');
+                    }  
+                });
+            });
         };
         // DIALOG BOX ////////////////////////////////////////////////////////
         window.plugin.reswue_colors.dialogBox = function() {

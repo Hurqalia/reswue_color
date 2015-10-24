@@ -3,7 +3,7 @@
 // @name           IITC plugin: ResWue Change links color
 // @author         hurqalia22
 // @category       Info
-// @version        0.1.5.20150801.001
+// @version        0.1.6.20150801.001
 // @namespace      https://github.com/Hurqalia/reswue_colors
 // @updateURL      https://github.com/Hurqalia/reswue_colors/raw/master/reswue_colors.meta.js
 // @downloadURL    https://github.com/Hurqalia/reswue_colors/raw/master/reswue_colors.user.js
@@ -127,6 +127,10 @@ function wrapper(plugin_info) {
         };
         // DIALOG BOX ////////////////////////////////////////////////////////
         window.plugin.reswue_colors.dialogBox = function() {
+                if (window.plugin.reswue.core.selectedOperation.getDisplayName() == '') {
+                  alert('An operation must be selected');
+                  return false;
+                }
                 var html = '<div class="" style="vertical-align:top; width:420px; height:420px;">'
                          + '<div>Change links color</div>'
                          + '<div style="display:inline-block; position:relative; top:0px;" id="block-layers">';

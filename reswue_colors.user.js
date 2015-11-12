@@ -3,7 +3,7 @@
 // @name           IITC plugin: ResWue Change links color
 // @author         hurqalia22
 // @category       Info
-// @version        0.1.8.20150801.001
+// @version        0.1.9.20150801.001
 // @namespace      https://github.com/Hurqalia/reswue_colors
 // @updateURL      https://github.com/Hurqalia/reswue_colors/raw/master/reswue_colors.meta.js
 // @downloadURL    https://github.com/Hurqalia/reswue_colors/raw/master/reswue_colors.user.js
@@ -106,7 +106,7 @@ function wrapper(plugin_info) {
         window.plugin.reswue_colors.setColorsToReswue = function() {
                 window.plugin.reswue_colors.is_new_color = false;
                 for(var key in window.plugin.reswue_colors.colorsObj[window.plugin.reswue_colors.KEY_CUSTOM_COLORS]) {
-                        if (window.plugin.reswue_colors.colorsObj[window.plugin.reswue_colors.KEY_DEFAULT_COLORS][key].color != '') {
+                        if (window.plugin.reswue_colors.colorsObj[window.plugin.reswue_colors.KEY_CUSTOM_COLORS][key].color != '') {
                                 window.plugin.reswue.layerManager.layerConfig[key].color = window.plugin.reswue_colors.colorsObj[window.plugin.reswue_colors.KEY_CUSTOM_COLORS][key].color;
                                 window.plugin.reswue_colors.is_new_color = true;
                         }
@@ -176,7 +176,7 @@ function wrapper(plugin_info) {
                                         if (is_modified) {
                                                 window.plugin.reswue_colors.saveCustomColors();
                                                 // if active operation, redraw
-                                                if (window.plugin.reswue.core.selectedOperation !== null) {
+                                                if ((window.plugin.reswue.core.selectedOperation !== null) && (window.plugin.reswue_colors.is_new_color)) {
                                                 //if ((localStorage['reswue-operation'] !== undefined) && (localStorage['reswue-operation'] != '') && (window.plugin.reswue_colors.is_new_color)) {
                                                         
                                                         window.plugin.reswue.core.selectedOperation.data.updateLinks(window.plugin.reswue.core.selectedOperation.data.links);

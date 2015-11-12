@@ -3,7 +3,7 @@
 // @name           IITC plugin: ResWue Change links color
 // @author         hurqalia22
 // @category       Info
-// @version        0.1.6.20150801.001
+// @version        0.1.7.20150801.001
 // @namespace      https://github.com/Hurqalia/reswue_colors
 // @updateURL      https://github.com/Hurqalia/reswue_colors/raw/master/reswue_colors.meta.js
 // @downloadURL    https://github.com/Hurqalia/reswue_colors/raw/master/reswue_colors.user.js
@@ -127,7 +127,7 @@ function wrapper(plugin_info) {
         };
         // DIALOG BOX ////////////////////////////////////////////////////////
         window.plugin.reswue_colors.dialogBox = function() {
-                if (window.plugin.reswue.core.selectedOperation.getDisplayName() == '') {
+                if (window.plugin.reswue.core.selectedOperation === null) {
                   alert('An operation must be selected');
                   return false;
                 }
@@ -176,7 +176,7 @@ function wrapper(plugin_info) {
                                         if (is_modified) {
                                                 window.plugin.reswue_colors.saveCustomColors();
                                                 // if active operation, redraw
-                                                if (window.plugin.reswue.core.selectedOperation.getDisplayName() != '') {
+                                                if (window.plugin.reswue.core.selectedOperation !== null) {
                                                 //if ((localStorage['reswue-operation'] !== undefined) && (localStorage['reswue-operation'] != '') && (window.plugin.reswue_colors.is_new_color)) {
                                                         
                                                         window.plugin.reswue.core.selectedOperation.data.updateLinks(window.plugin.reswue.core.selectedOperation.data.links);

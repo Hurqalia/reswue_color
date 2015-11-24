@@ -3,7 +3,7 @@
 // @name           IITC plugin: ResWue Change links color
 // @author         hurqalia22
 // @category       Info
-// @version        0.1.9.20150801.001
+// @version        0.1.10.20150801.001
 // @namespace      https://github.com/Hurqalia/reswue_colors
 // @updateURL      https://github.com/Hurqalia/reswue_colors/raw/master/reswue_colors.meta.js
 // @downloadURL    https://github.com/Hurqalia/reswue_colors/raw/master/reswue_colors.user.js
@@ -27,7 +27,6 @@ function wrapper(plugin_info) {
         window.plugin.reswue_colors                    = function() {};
         window.plugin.reswue_colors.KEY_DEFAULT_COLORS = 'plugin-reswue-colors-default';
         window.plugin.reswue_colors.KEY_CUSTOM_COLORS  = 'plugin-reswue-colors-custom';
-        //window.plugin.reswue_colors.KEY            = {key: window.plugin.reswue_colors.CUSTOM_COLORS, field: 'colorsObj'};
         window.plugin.reswue_colors.colorsObj          = {};
         window.plugin.reswue_colors.is_new_color       = false;
                         
@@ -70,7 +69,7 @@ function wrapper(plugin_info) {
         // init setup
         window.plugin.reswue_colors.setup  = function() {
                 console.log('ResWue Colorizer');
-                if (window.plugin.reswue && localStorage['reswue-environment']) {
+                if (window.plugin.reswue && localStorage['reswue-environment-data']) {
                         window.plugin.reswue_colors.loadDefaultColors();
                         window.plugin.reswue_colors.loadCustomColors();
                         if (window.plugin.reswue_colors.colorsObj[window.plugin.reswue_colors.KEY_DEFAULT_COLORS] === undefined) {
@@ -112,6 +111,49 @@ function wrapper(plugin_info) {
                         }
                 }
         };
+        
+        // reset colors config
+        window.plugin.reswue_colors.resetColors = function() {
+            delete localStorage[window.plugin.reswue_colors.KEY_CUSTOM_COLORS];
+            delete localStorage[window.plugin.reswue_colors.KEY_DEFAULT_COLORS];                            
+            $(this).dialog('close');
+            location.reload();
+        };
+    
+        // copy settings
+        window.plugin.reswue_colors.copyColors = function() {
+            var html = '<p><a onclick="$("#dial-colors-reswue-copy").select();">Select all</a> and press CTRL+C to copy it.</p>';
+            html += '<textarea style="width:400px; height:150px;" id="dial-colors-reswue-copy" readonly onclick="$("#dial-colors-reswue-copy").select();">'+localStorage[window.plugin.reswue_colors.KEY_CUSTOM_COLORS]+'</textarea>';
+
+            dialog({
+                html: html,
+                width: 420,
+                dialogClass: 'dialog-reswue-color-copy',
+                title: 'Color Editor Export'
+            });
+        };
+
+        // paste settings
+        window.plugin.reswue_colors.pasteColors = function() {
+            var promptDatas = prompt('Press CTRL+V to paste color settings.', '');
+            if (promptDatas !== null && promptDatas !== '') {
+                try {
+                    var datas_pasted = JSON.parse(promptDatas);
+                    $.each(datas_pasted, function(key, rec) {
+                        if ((typeof rec.name == 'undefined') || (typeof rec.color == 'undefined')) {
+                            throw 'Not a Reswue Color JSON';
+                        }
+                    });
+
+                    localStorage[window.plugin.reswue_colors.KEY_CUSTOM_COLORS] = promptDatas;
+                    
+                    alert('New settings saved, IITC will be reloaded');
+                    location.reload();
+                } catch(e) {
+                    alert('ERROR Failed to import data : ' + e);
+                }
+            }            
+        };
 
         // toolbox menu
         window.plugin.reswue_colors.addButtons = function() {
@@ -148,10 +190,16 @@ function wrapper(plugin_info) {
                 html += '<div style="position:absolute; top:20px; left:150px;">';
                 html += '<canvas id="rc_canvas" width="230" height="150"></canvas>';
                 html += '<div>';
-                html += '<div style="margin-bottom:2px;">Color code : <input name="newc" id="new-color-code" type="color-picker" value="" size="10">&nbsp<input type="button" onclick="window.plugin.reswue_colors.setSelectColor()" value="Set"/></div>';
+                html += '<div style="margin-bottom:2px;">Color code : <input name="newc" id="new-color-code" type="color-picker" value="" size="10">&nbsp<button type="button" onclick="window.plugin.reswue_colors.setSelectColor()"> Set </button></div>';
                 html += '<div style="margin-bottom:2px;">Layer selected : <span id="rc_ls_name" style="font-weight:bold;"></span></div>';
                 html += '<div style="margin-bottom:2px;">Original layer color : <div class="rc_block_edit" id="rc_ls_original" data-selected-layer="">&nbsp;</div></div>';
-                html += '<div style="margin-bottom:2px;">Modified layer color : <div class="rc_block_edit" id="rc_ls_new">&nbsp;</div></div>';
+                html += '<div style="margin-bottom:2px;">Modified layer color : <div class="rc_block_edit" id="rc_ls_new">&nbsp;</div>';
+                html += '</div><hr />';
+                html += '<div style="margin-top:10px; text-align:center;">';
+                html += '<button type="button" onclick="window.plugin.reswue_colors.copyColors();" style="margin-bottom:5px; width:150px;"> Copy color settings </button><br />';
+                html += '<button type="button" onclick="window.plugin.reswue_colors.pasteColors();" style="margin-bottom:10px; width:150px;"> Paste color settings </button><br />';
+                html += '<button type="button" onclick="window.plugin.reswue_colors.resetColors();" style="width:150px;"> Reset color settings </button><br />';
+                html += '</div>';
                 html += '</div>';
                 html += '</div>';
 
@@ -175,10 +223,7 @@ function wrapper(plugin_info) {
                                         });
                                         if (is_modified) {
                                                 window.plugin.reswue_colors.saveCustomColors();
-                                                // if active operation, redraw
                                                 if ((window.plugin.reswue.core.selectedOperation !== null) && (window.plugin.reswue_colors.is_new_color)) {
-                                                //if ((localStorage['reswue-operation'] !== undefined) && (localStorage['reswue-operation'] != '') && (window.plugin.reswue_colors.is_new_color)) {
-                                                        
                                                         window.plugin.reswue.core.selectedOperation.data.updateLinks(window.plugin.reswue.core.selectedOperation.data.links);
                                                 }
                                         } else {
@@ -188,13 +233,7 @@ function wrapper(plugin_info) {
                                 },
                                 'Cancel' : function(){
                                         $(this).dialog('close');
-                                },
-                                'Reset': function() {
-                                        delete localStorage[window.plugin.reswue_colors.KEY_CUSTOM_COLORS];
-                                        delete localStorage[window.plugin.reswue_colors.KEY_DEFAULT_COLORS];                            
-                                        $(this).dialog('close');
-                                       location.reload();
-                                },
+                                }
                         }
                 });
 
@@ -220,7 +259,7 @@ function wrapper(plugin_info) {
                         $('#rc_ls_original').css({ 'background-color' : original_color });
                         if (new_color != '') {
                                 $('#rc_ls_new').css({ 'background-color' : new_color });
-        $(element).attr('data-new-color', new_color);
+                                $(element).attr('data-new-color', new_color);
                         }
 
                         $(element).removeClass('rc_block_layer');

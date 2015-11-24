@@ -3,7 +3,7 @@
 // @name           IITC plugin: ResWue Change links color
 // @author         hurqalia22
 // @category       Info
-// @version        0.1.9.20150801.001
+// @version        0.1.10.20150801.001
 // @namespace      https://github.com/Hurqalia/reswue_colors
 // @updateURL      https://github.com/Hurqalia/reswue_colors/raw/master/reswue_colors.meta.js
 // @downloadURL    https://github.com/Hurqalia/reswue_colors/raw/master/reswue_colors.user.js
